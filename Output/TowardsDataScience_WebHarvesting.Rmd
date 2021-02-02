@@ -3,16 +3,16 @@ title: "Towards Data Science, webscrapping for fun"
 subtitle: "How to dynamically read and optmize skimming processes"
 author: "Celio Oliveira"
 contact: "oliveira.celior@gmail.com"
-cate: format(Sys.time(), '%d %B %Y')
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 pre-requisites: "None"
 output:bookdown::pdf_document2:toc: yes
 thanks: "Code and data are available at: https://github.com/CROliveira/R_WebHarvesting"
 bibliography: references.bib
 output:
   # word_document: default
-  # pdf_document: default
-  html_document: 
-    df_print: paged
+  pdf_document: default
+  # html_document: 
+  df_print: paged
 always_allow_html: true
 ---
 
@@ -80,17 +80,25 @@ In further phases, I aim to filter the title of publications, author name, date 
 
 The table below shows the last publications uploaded on the website:
 
-```{r Fetching the data, include = TRUE, echo = FALSE}
+```{r Fetching the data, include = FALSE, echo = FALSE}
 # get HTML object
 url <- "https://towardsdatascience.com"
-titles <- read_html(url) %>% html_nodes('h1') %>%
+url_data <- read_html(url)
+titles <- url_data %>% html_nodes('h1') %>%
   html_nodes('a') %>% html_text()
 
+write.csv(here::here( titles, "Input/towardsdatascience_urldata.csv"))
+
+# # creating a data frame
+# titles_df <- data.frame(titles)
+# titles_df
+```
+
+```{r Towards DS table, include = TRUE, echo = FALSE}
+# creating a data frame
 titles_df <- data.frame(titles)
 titles_df
 ```
-
-
 
 
 ```{r TowardsDS webpage, include=FALSE, echo = FALSE, message = FALSE}
